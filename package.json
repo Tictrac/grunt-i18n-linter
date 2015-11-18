@@ -1,0 +1,42 @@
+{
+  "name": "grunt-i18n-linter",
+  "description": "Grunt plugin to loop through templates to validate the use of translations",
+  "version": "0.0.1",
+  "homepage": "https://github.com/tictrac/grunt-i18n-linter",
+  "author": {
+    "name": "Liam Keaton",
+    "email": "liamkeaton@gmail.com",
+    "url": "liamkeaton.com"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/tictrac/grunt-i18n-linter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tictrac/grunt-i18n-linter/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/tictrac/grunt-i18n-linter/blob/master/LICENSE-MIT"
+    }
+  ],
+  "engines": {
+    "node": ">= 0.8.0"
+  },
+  "scripts": {
+    "test": "grunt test"
+  },
+  "devDependencies": {
+    "grunt-contrib-jshint": "^0.9.2",
+    "grunt-contrib-clean": "^0.5.0",
+    "grunt-contrib-nodeunit": "^0.3.3",
+    "grunt": "~0.4.5"
+  },
+  "peerDependencies": {
+    "grunt": "~0.4.5"
+  },
+  "keywords": [
+    "gruntplugin"
+  ]
+}
