@@ -49,30 +49,6 @@ Default value: `null`
 
 A regex pattern for finding missing translations in given files.
 
-#### options.missingSuccessMessage
-Type: `String`
-Default value: `Well done, no missing translations`
-
-Message displayed when there are no missing translations
-
-#### options.missingErrorMessage
-Type: `String`
-Default value: `There are missing translations`
-
-Message displayed before the translations that are missing
-
-#### options.unusedSuccessMessage
-Type: `String`
-Default value: `Well done, no unused translations`
-
-Message displayed when there are no unused translations
-
-#### options.unusedErrorMessage
-Type: `String`
-Default value: `There are unused translations`
-
-Message displayed before the translations that are unused
-
 ### Usage Examples
 
 #### Unused translations

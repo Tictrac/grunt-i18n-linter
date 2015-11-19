@@ -14,11 +14,7 @@ module.exports = function(grunt) {
         var linter = require('./lib/i18n_linter')(grunt),
             options = this.options({
                 translations: [],
-                missingTranslationRegex: null,
-                missingSuccessMessage: 'Well done, no missing translations',
-                missingErrorMessage: 'There are missing translations',
-                unusedSuccessMessage: 'Well done, no unused translations',
-                unusedErrorMessage: 'There are unused translations'
+                missingTranslationRegex: null
             });
 
         linter.run(this.filesSrc, options);

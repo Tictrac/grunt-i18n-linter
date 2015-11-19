@@ -17,6 +17,11 @@ module.exports = function(grunt) {
         linter: linter
     };
 
+    /**
+     * Run the linter against the given files and options
+     * @param {Array} files List of files to check
+     * @param {Object} options List of options
+     */
     function run(files, options) {
         // If translations or templates are not supplied then error
         if (options.translations.length === 0) {
@@ -49,9 +54,9 @@ module.exports = function(grunt) {
         });
 
         // Report
-        report(linter.getUnusedTranslations(), options.unusedSuccessMessage, options.unusedErrorMessage);
+        report(linter.getUnusedTranslations(), 'Unused');
         if (options.missingTranslationRegex !== null) {
-            report(linter.getMissingTranslations(), options.missingSuccessMessage, options.missingErrorMessage);
+            report(linter.getMissingTranslations(), 'Missing');
         }
 
         /**
@@ -60,14 +65,13 @@ module.exports = function(grunt) {
          * @param {String} success Success message
          * @param {String} error Error message
          */
-        function report(items, success, error) {
+        function report(items, heading) {
+            grunt.log.subhead(heading);
             if (items.length > 0) {
-                grunt.log.error(error);
-                grunt.log.error(grunt.log.wordlist(items));
+                grunt.log.error(grunt.log.wordlist(items, {separator: '\n'}));
             } else {
-                grunt.log.ok(success);
+                grunt.log.ok();
             }
-            grunt.log.writeln();
         }
     }
 };
