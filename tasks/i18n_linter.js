@@ -2,7 +2,7 @@
  * grunt-i18n-linter
  * https://github.com/tictrac/grunt-i18n-linter
  *
- * Copyright (c) 2015 Liam Keaton
+ * Copyright (c) 2015 Tictrac
  * Licensed under the MIT license.
  */
 
@@ -10,41 +10,17 @@
 
 module.exports = function(grunt) {
 
-  // Please see the Grunt documentation for more information regarding task
-  // creation: http://gruntjs.com/creating-tasks
+    grunt.registerMultiTask('i18n_linter', 'Grunt plugin to loop through templates to validate the use of translations', function() {
+        var linter = require('./lib/i18n_linter')(grunt),
+            options = this.options({
+                translations: [],
+                missingTranslationRegex: null,
+                missingSuccessMessage: 'Well done, no missing translations',
+                missingErrorMessage: 'There are missing translations',
+                unusedSuccessMessage: 'Well done, no unused translations',
+                unusedErrorMessage: 'There are unused translations'
+            });
 
-  grunt.registerMultiTask('i18n_linter', 'Grunt plugin to loop through templates to validate the use of translations', function() {
-    // Merge task-specific and/or target-specific options with these defaults.
-    var options = this.options({
-      separator: ", ",
-      punctuation: "."
+        linter.run(this.filesSrc, options);
     });
-
-    // Iterate over all specified file groups.
-    this.files.forEach(function(f) {
-      // Concat specified files.
-      var src = f.src.filter(function(filepath) {
-        // Warn on and remove invalid source files (if nonull was set).
-        if (!grunt.file.exists(filepath)) {
-          grunt.log.warn('Source file "' + filepath + '" not found.');
-          return false;
-        } else {
-          return true;
-        }
-      }).map(function(filepath) {
-        // Read file source.
-        return grunt.file.read(filepath);
-      }).join(grunt.util.normalizelf(options.separator));
-
-      // Handle options.
-      src += options.punctuation;
-
-      // Write the destination file.
-      grunt.file.write(f.dest, src);
-
-      // Print a success message.
-      grunt.log.writeln('File "' + f.dest + '" created.');
-    });
-  });
-
 };

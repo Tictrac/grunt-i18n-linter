@@ -1,48 +1,88 @@
 'use strict';
 
-var grunt = require('grunt');
-
-/*
-  ======== A Handy Little Nodeunit Reference ========
-  https://github.com/caolan/nodeunit
-
-  Test methods:
-    test.expect(numAssertions)
-    test.done()
-  Test assertions:
-    test.ok(value, [message])
-    test.equal(actual, expected, [message])
-    test.notEqual(actual, expected, [message])
-    test.deepEqual(actual, expected, [message])
-    test.notDeepEqual(actual, expected, [message])
-    test.strictEqual(actual, expected, [message])
-    test.notStrictEqual(actual, expected, [message])
-    test.throws(block, [error], [message])
-    test.doesNotThrow(block, [error], [message])
-    test.ifError(value)
-*/
+var grunt = require('grunt'),
+    linter;
 
 exports.i18n_linter = {
-  setUp: function(done) {
-    // setup here if necessary
-    done();
-  },
-  default_options: function(test) {
-    test.expect(1);
+    setUp: function(done) {
+        linter = require('../tasks/lib/i18n_linter.js')(grunt);
+        done();
+    },
+    testCombined: function(test) {
+        test.expect(2);
 
-    var actual = grunt.file.read('tmp/default_options');
-    var expected = grunt.file.read('test/expected/default_options');
-    test.equal(actual, expected, 'should describe what the default behavior is.');
+        linter.run(grunt.file.expand('test/fixtures/templates/*'), {
+            translations: ['test/fixtures/translations/*.json'],
+            missingTranslationRegex: /__[A-Z0-9_]*__/g
+        });
 
-    test.done();
-  },
-  custom_options: function(test) {
-    test.expect(1);
+        test.equal(linter.linter.getUnusedTranslations().length, 2, 'there should be 2 unused translations');
+        test.equal(linter.linter.getMissingTranslations().length, 0, 'there should be no missing translations');
 
-    var actual = grunt.file.read('tmp/custom_options');
-    var expected = grunt.file.read('test/expected/custom_options');
-    test.equal(actual, expected, 'should describe what the custom option(s) behavior is.');
+        test.done();
+    },
+    testAll: function(test) {
+        test.expect(2);
 
-    test.done();
-  },
+        linter.run(grunt.file.expand('test/fixtures/templates/*'), {
+            translations: ['test/fixtures/translations/all.json'],
+            missingTranslationRegex: /__[A-Z0-9_]*__/g
+        });
+
+        test.equal(linter.linter.getUnusedTranslations().length, 0, 'there should be no unused translations');
+        test.equal(linter.linter.getMissingTranslations().length, 0, 'there should be no missing translations');
+
+        test.done();
+    },
+    testMissing: function(test) {
+        test.expect(2);
+
+        linter.run(grunt.file.expand('test/fixtures/templates/*'), {
+            translations: ['test/fixtures/translations/missing.json'],
+            missingTranslationRegex: /__[A-Z0-9_]*__/g
+        });
+
+        test.equal(linter.linter.getUnusedTranslations().length, 0, 'there should be no unused translations');
+        test.equal(linter.linter.getMissingTranslations().length, 2, 'there should be 2 missing translations');
+
+        test.done();
+    },
+    testMissingNoMissing: function(test) {
+        test.expect(2);
+
+        linter.run(grunt.file.expand('test/fixtures/templates/*'), {
+            translations: ['test/fixtures/translations/missing.json']
+        });
+
+        test.equal(linter.linter.getUnusedTranslations().length, 0, 'there should be no unused translations');
+        test.equal(linter.linter.getMissingTranslations().length, 0, 'there should be no missing translations');
+
+        test.done();
+    },
+    testUnused: function(test) {
+        test.expect(2);
+
+        linter.run(grunt.file.expand('test/fixtures/templates/*'), {
+            translations: ['test/fixtures/translations/unused.json'],
+            missingTranslationRegex: /__[A-Z0-9_]*__/g
+        });
+
+        test.equal(linter.linter.getUnusedTranslations().length, 2, 'there should be 2 unused translations');
+        test.equal(linter.linter.getMissingTranslations().length, 0, 'there should be no missing translations');
+
+        test.done();
+    },
+    testMissingAndUnused: function(test) {
+        test.expect(2);
+
+        linter.run(grunt.file.expand('test/fixtures/templates/*'), {
+            translations: ['test/fixtures/translations/missing-unused.json'],
+            missingTranslationRegex: /__[A-Z0-9_]*__/g
+        });
+
+        test.equal(linter.linter.getUnusedTranslations().length, 2, 'there should be 2 unused translations');
+        test.equal(linter.linter.getMissingTranslations().length, 2, 'there should be 2 missing translations');
+
+        test.done();
+    }
 };
