@@ -1,6 +1,6 @@
 # grunt-i18n-linter
 
-> Grunt plugin to search source code and validate the use of translations
+> Grunt plugin to highlight unused or missing translations
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
