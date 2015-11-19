@@ -1,6 +1,6 @@
 # grunt-i18n-linter
 
-> Grunt plugin to loop through templates to validate the use of translations
+> Grunt plugin to search source code and validate the use of translations
 
 ## Getting Started
 This plugin requires Grunt `~0.4.5`
@@ -37,47 +37,69 @@ grunt.initConfig({
 
 ### Options
 
-#### options.separator
+#### options.translations
+Type: `Array`
+Default value: `[]`
+
+An array of paths to your JSON translation files. Paths do support Grunt filename expansion.
+
+#### options.missingTranslationRegex
+Type: `RegExp`
+Default value: `null`
+
+A regex pattern for finding missing translations in given files.
+
+#### options.missingSuccessMessage
 Type: `String`
-Default value: `',  '`
+Default value: `Well done, no missing translations`
 
-A string value that is used to do something with whatever.
+Message displayed when there are no missing translations
 
-#### options.punctuation
+#### options.missingErrorMessage
 Type: `String`
-Default value: `'.'`
+Default value: `There are missing translations`
 
-A string value that is used to do something else with whatever else.
+Message displayed before the translations that are missing
+
+#### options.unusedSuccessMessage
+Type: `String`
+Default value: `Well done, no unused translations`
+
+Message displayed when there are no unused translations
+
+#### options.unusedErrorMessage
+Type: `String`
+Default value: `There are unused translations`
+
+Message displayed before the translations that are unused
 
 ### Usage Examples
 
-#### Default Options
-In this example, the default options are used to do something with whatever. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result would be `Testing, 1 2 3.`
-
-```js
-grunt.initConfig({
-  i18n_linter: {
-    options: {},
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
-    },
-  },
-});
-```
-
-#### Custom Options
-In this example, custom options are used to do something else with whatever else. So if the `testing` file has the content `Testing` and the `123` file had the content `1 2 3`, the generated result in this case would be `Testing: 1 2 3 !!!`
+#### Unused translations
+The linter will report all translations that are defined in the ```options.translations``` files that can not be found in the ```src``` files.
 
 ```js
 grunt.initConfig({
   i18n_linter: {
     options: {
-      separator: ': ',
-      punctuation: ' !!!',
+        translations: ['src/translations/*.json']
     },
-    files: {
-      'dest/default_options': ['src/testing', 'src/123'],
+    src: ['src/templates/*.html', 'src/tamplates/*.js']
+  },
+});
+```
+
+#### Missing translations
+If the linter is aware of how the translations are defined then it can then report on all translations found in the ```src``` that are not defined in the ```options.translations```.
+
+```js
+grunt.initConfig({
+  i18n_linter: {
+    options: {
+        translations: ['src/translations/*.json'],
+        missingTranslationRegex: /__[A-Z0-9_]*__/g
     },
+    src: ['src/templates/*.html', 'src/tamplates/*.js']
   },
 });
 ```
@@ -86,4 +108,4 @@ grunt.initConfig({
 In lieu of a formal styleguide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code using [Grunt](http://gruntjs.com/).
 
 ## Release History
-_(Nothing yet)_
+See [https://github.com/tictrac/grunt-i18n-linter/release](https://github.com/tictrac/grunt-i18n-linter/release).
