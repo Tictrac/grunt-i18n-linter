@@ -1,7 +1,7 @@
 {
   "name": "grunt-i18n-linter",
-  "description": "Grunt plugin to loop through templates to validate the use of translations",
-  "version": "0.0.1",
+  "description": "Grunt plugin to highlight unused or missing translations",
+  "version": "0.0.2",
   "homepage": "https://github.com/tictrac/grunt-i18n-linter",
   "author": {
     "name": "Tictrac",

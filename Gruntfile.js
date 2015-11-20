@@ -63,6 +63,13 @@ module.exports = function(grunt) {
                     missingTranslationRegex: /__[A-Z0-9_]*__/g
                 },
                 src: ['test/fixtures/templates/*']
+            },
+            test_missingAndUnused: {
+                options: {
+                    translations: ['test/fixtures/translations/missing-unused.json'],
+                    missingTranslationRegex: /__[A-Z0-9_]*__/g
+                },
+                src: ['test/fixtures/templates/*']
             }
         },
 
