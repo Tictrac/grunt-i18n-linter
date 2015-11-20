@@ -17,6 +17,28 @@ module.exports = function(grunt) {
                 missingTranslationRegex: null
             });
 
+        // Run
         linter.run(this.filesSrc, options);
+
+        // Report
+        report(linter.getUnusedTranslations(), 'Unused');
+        if (options.missingTranslationRegex !== null) {
+            report(linter.getMissingTranslations(), 'Missing');
+        }
+
+        /**
+         * Report the status of items
+         * @param {Array} items If empty its successful
+         * @param {String} success Success message
+         * @param {String} error Error message
+         */
+        function report(items, heading) {
+            grunt.log.subhead(heading);
+            if (items.length > 0) {
+                grunt.log.error(grunt.log.wordlist(items, {separator: '\n'}));
+            } else {
+                grunt.log.ok();
+            }
+        }
     });
 };

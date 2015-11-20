@@ -14,7 +14,13 @@ module.exports = function(grunt) {
 
     return {
         run: run,
-        linter: linter
+        linter: linter,
+        getUnusedTranslations: function() {
+            return linter.getUnusedTranslations()
+        },
+        getMissingTranslations: function() {
+            return linter.getMissingTranslations()
+        }
     };
 
     /**
@@ -52,27 +58,6 @@ module.exports = function(grunt) {
             }
             linter.check(grunt.file.read(file));
         });
-
-        // Report
-        report(linter.getUnusedTranslations(), 'Unused');
-        if (options.missingTranslationRegex !== null) {
-            report(linter.getMissingTranslations(), 'Missing');
-        }
-
-        /**
-         * Report the status of items
-         * @param {Array} items If empty its successful
-         * @param {String} success Success message
-         * @param {String} error Error message
-         */
-        function report(items, heading) {
-            grunt.log.subhead(heading);
-            if (items.length > 0) {
-                grunt.log.error(grunt.log.wordlist(items, {separator: '\n'}));
-            } else {
-                grunt.log.ok();
-            }
-        }
     }
 };
 

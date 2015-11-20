@@ -1,7 +1,7 @@
 {
   "name": "grunt-i18n-linter",
   "description": "Grunt plugin to highlight unused or missing translations",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "homepage": "https://github.com/tictrac/grunt-i18n-linter",
   "author": {
     "name": "Tictrac",
